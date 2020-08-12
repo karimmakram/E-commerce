@@ -2,10 +2,8 @@ import {Router,Request,Response} from "express"
 import {check, validationResult} from "express-validator"
 import multer from "multer"
 import Users from "../model/user"
-import { NextFunction } from "connect"
-import { SignCallback } from "jsonwebtoken"
-import { arch } from "os"
-
+import userclass from "../classes/user"
+import auth from "../middleWere/auth"
 const upload = multer({
     fileFilter(req:Request,file:Express.Multer.File,cb){
         if(!file.originalname.match(/\.(png|jpg|jpeg|PNG)$/)){
@@ -61,4 +59,33 @@ userRouter.post('/register',[
     }
 )
 
+//login 
+//post
+
+userRouter.post('/login',[
+    check('email',"please enter valid email").isEmail(),
+    check('password',"invalid password").isLength({min:6})
+],
+async(req:Request,res:Response)=>{
+    const error = validationResult(req)
+    if(!error.isEmpty()){
+        return res.status(400).send(error)
+    }
+    try{
+        const {email,password}:{email:string,password:string}=req.body
+        const user = await userclass.login(email,password)
+        const token =await user.generateAuthToken()
+        res.status(200).send({user,token})
+    }catch(e){
+        res.status(500).send({error:e.message})
+    }
+})
+
+userRouter.get('/get',auth ,async(req,res)=>{
+    try{
+        res.send(req.user)
+    }catch(e){
+        res.status(400).send(e.message)
+    }
+})
 export default userRouter

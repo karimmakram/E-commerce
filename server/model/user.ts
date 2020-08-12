@@ -47,12 +47,22 @@ userSchema.pre('save',async function(next){
     next()
 })
 
-userSchema.methods.generateAuthToken = async function(){
+userSchema.methods.generateAuthToken =async function(){
     const user = this 
-    const token = jsonwebtoken.sign({_id:user._id},String(process.env.secret_token))
-    user.tokens = user.tokens.concat({token})
+    const token = jsonwebtoken.sign({_id:user._id.toString()},String(process.env.secret))
+    console.log(token);
+    user.tokens =  user.tokens.concat({token})
     await user.save()
     return token
 }
+userSchema.methods.toJSON =function(){
+    const user = this
+    const userData = user.toObject()
+    delete userData.tokens
+    delete userData.image
+    delete userData.password
+    return userData
+}
+
 const Users = mongoose.model<user>('users',userSchema)
 export default Users

@@ -1,13 +1,20 @@
 import mongoose from "mongoose"
 import jsonwebtoken from "jsonwebtoken";
-
+import Users from "../model/user"
+import bcrypt from "bcrypt"
 class user extends mongoose.Document{
-  async  generateAuthToken(){
-            const user = this 
-            const token = jsonwebtoken.sign({_id:user._id},String(process.env.secret_token))
-            console.log(token);
-            return token
-        
+     
+    static async login(email:string,password:string){
+        const user =await Users.findOne({email})
+        if(!user){
+            throw new Error("unable to login")
+        }
+    
+       const isMatch:boolean = await bcrypt.compare(password,user.password)
+       if(!isMatch){
+        throw new Error("unable to login")
+       }
+       return user
     }
     name:string
     email:string
@@ -26,6 +33,9 @@ class user extends mongoose.Document{
         this.history = history
         this.tokens = tokens
     }
+
+    public  generateAuthToken = async()=>{}
+
     
 }
 
