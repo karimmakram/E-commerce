@@ -1,5 +1,5 @@
-import Users from "../model/user"
-import user from "../classes/user"
+import Users from "../src/model/user"
+import user from "../src/classes/user"
 import jsonwebtoken  from "jsonwebtoken" 
 import {Request,Response,NextFunction} from "express"
 declare global

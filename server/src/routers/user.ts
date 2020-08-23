@@ -1,7 +1,7 @@
 import {Router,Request,Response} from "express"
 import {check} from "express-validator"
 import multer from "multer"
-import auth from "../middleWere/auth"
+import auth from "../../middleWere/auth"
 import {userController} from '../contloller/user' 
 
 const upload = multer({

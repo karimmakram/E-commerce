@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import "./db/db.ts"
-import userRouter from "./routers/user"
+import userRouter from "./src/routers/user"
 
 
 const app = express()
