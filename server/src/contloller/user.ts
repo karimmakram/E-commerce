@@ -2,6 +2,7 @@ import {Request,Response} from 'express'
 import Users from '../model/user'
 import userclass from "../classes/user"
 import {validationResult} from "express-validator"
+import { KeyObject } from 'crypto'
 export class userController {
      public  async AddUser(req:Request,res:Response){
         const error = validationResult(req)
@@ -45,5 +46,32 @@ export class userController {
         }catch(e){
             res.status(500).send({error:e.message})
         }
+    }
+
+    public async deleteUser (req:Request,res:Response){
+     try
+     {
+        const user =   await Users.deleteOne({_id:req.user._id})
+        if(user){
+            return    res.status(200).json({massege:'user deleted'})
+         }
+    } catch(e){
+        return res.status(400).send(e.message)
+    }
+    }
+
+    public async updataUser(req:Request,res:Response){
+        const keyObject = Object.keys(req.body)
+        const allowedUpdateKeys = ['name','password']
+        const validOpertion = keyObject.every((key)=>allowedUpdateKeys.includes(key))
+        if(!validOpertion){
+            return res.status(400).send('invalid update keys')
+        }
+        const user:any = req.user
+        keyObject.forEach((key)=>{
+            user[key] =req.body[key]
+        })
+        await user.save()
+        res.send(user)
     }
 }
