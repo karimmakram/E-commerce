@@ -32,6 +32,7 @@
     "nodemon": "^2.0.4",
     "npx": "^10.2.2",
     "ts-node": "^8.10.2",
+    "typegoose": "^5.9.1",
     "typescript": "^3.9.7",
     "validator": "^13.1.1"
   }
