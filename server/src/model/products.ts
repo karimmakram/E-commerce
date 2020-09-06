@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-import {prop,Typegoose,ModelType,InstanceType} from 'typegoose'
+import {prop,Typegoose,ModelType,InstanceType,instanceMethod} from 'typegoose'
+import { ObjectID } from 'bson';
 
 class Product extends Typegoose{
     @prop({
@@ -22,12 +23,12 @@ class Product extends Typegoose{
     })
     discount?:Number
 
-    @prop({maxlength:4})
+    @prop()
     images?:[{
         image?:Buffer
-    }]
+        }
+    ]
 }   
-
 export const   productModel = new Product().getModelForClass(Product)
 
 

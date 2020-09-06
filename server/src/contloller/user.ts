@@ -9,7 +9,7 @@ export class userController {
         if(!error.isEmpty()){
             return res.status(400).send(error);    
         }
-        const {name,email,password}:{name:string,email:string,password:string} = req.body
+        const {name,email,password,role}:{name:string,email:string,password:string,role:Number} = req.body
         try{
             const user = await Users.findOne({email})
             if(user){
@@ -18,10 +18,10 @@ export class userController {
                 let token
                 if(req.file){
                     const image :Buffer = req.file.buffer
-                    const user =new Users({email,password,name,image})
+                    const user =new Users({email,password,name,image,role})
                     await user.save()
                 }else{
-                const user =new Users({email,password,name}) 
+                const user =new Users({email,password,name,role}) 
                 await user.save()
                 }
                 return res.status(200).send({msg:"user Added",token})

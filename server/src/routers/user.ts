@@ -4,17 +4,7 @@ import multer from "multer"
 import auth from "../../middleWere/auth"
 import {userController} from '../contloller/user' 
 import user from "../classes/user"
-
-const upload = multer({
-    storage:multer.memoryStorage(),
-    fileFilter(req:Request,file:Express.Multer.File,cb){
-        // if(!file.originalname.match(/\.(png|jpg|jpeg|PNG)$/)){
-           if(!file.mimetype.startsWith('image')){ 
-            return cb(new Error('you must upload image'))
-        }
-         return cb(null,true)
-    }
-})
+import {upload} from '../../middleWere/multerUpload'
 const userRouter = Router()
 const controller:userController = new userController()
 
