@@ -18,7 +18,9 @@ userRouter.post('/user',[
     // check('password,"password must more then 6 character').isLength({min:6})
     ],upload.single('image'),controller.AddUser
 )
-
+userRouter.get('/user',(req,res)=>{
+    res.send('gooood')
+})
 //login 
 //post
 

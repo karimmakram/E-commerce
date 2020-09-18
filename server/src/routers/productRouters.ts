@@ -9,3 +9,5 @@ import {productController} from '../contloller/productController'
 export const productRouters = Router()
 const productCn =new productController()
 productRouters.post('/product',auth,upload.array('images',4),productCn.addProduct)
+productRouters.get('/product',auth,productCn.getAllproductes)
+productRouters.delete('/product/:id',auth,productCn.deleteProduct)

@@ -10,7 +10,7 @@ app.use(cors())
 app.use(express.json())
 app.use(userRouter)
 app.use(productRouters)
-
+app.use(express.static(`${__dirname}/public`))
 
 app.use((req,res)=>{
     res.send("Page Not found")

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import {prop,Typegoose,ModelType,InstanceType,instanceMethod} from 'typegoose'
-import { ObjectID } from 'bson';
+import {prop,Typegoose,ModelType,InstanceType,instanceMethod, arrayProp} from 'typegoose'
+
 
 class Product extends Typegoose{
     @prop({
@@ -23,11 +23,16 @@ class Product extends Typegoose{
     })
     discount?:Number
 
-    @prop()
-    images?:[{
-        image?:Buffer
-        }
-    ]
+    @arrayProp({_id:true,items:mongoose.Types.Buffer})
+    images?:Buffer[]
+
+    @instanceMethod
+    toJSON(this:InstanceType<Product>){
+        const data = this 
+        const product = data.toObject()
+        delete product.images
+        return product
+    }
 }   
 export const   productModel = new Product().getModelForClass(Product)
 

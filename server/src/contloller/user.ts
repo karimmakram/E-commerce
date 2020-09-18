@@ -34,6 +34,8 @@ export class userController {
     }
 
     public async signin (req:Request,res:Response){
+        console.log(1234);
+        
         const error = validationResult(req)
         if(!error.isEmpty()){
             return res.status(400).send(error)
